@@ -40,19 +40,26 @@ const ProductCard = ({ product }: Props) => {
   return (
     <div className="border border-borderColor hover:shadow-lg hover:shadow-black/30 duration-300 rounded-md group">
       <div className="overflow-hidden relative">
-        <Image
-          src={product?.images[0]}
-          alt="product-image"
-          width={500}
-          height={500}
-          className="w-full h-64 object-contain group-hover:scale-110 duration-300"
-        />
-        {product?.rating && (
-          <p className="absolute top-2 right-2 bg-lightOrange text-white text-xs font-medium flex products-center py-1 px-2 rounded-lg gap-1">
-            {product?.rating} <FaStar />
-          </p>
-        )}
-        <ProductSideBar id={product?.id} />
+        <Link
+          href={{
+            pathname: `/product/${product?.id}`,
+            query: { id: product?.id },
+          }}
+        >
+          <Image
+            src={product?.images[0]}
+            alt="product-image"
+            width={500}
+            height={500}
+            className="w-full h-64 object-contain group-hover:scale-110 duration-300"
+          />
+          {product?.rating && (
+            <p className="absolute top-2 right-2 bg-lightOrange text-white text-xs font-medium flex products-center py-1 px-2 rounded-lg gap-1">
+              {product?.rating} <FaStar />
+            </p>
+          )}
+          <ProductSideBar id={product?.id} />
+        </Link>
       </div>
       <div className="p-4 border-t border-t-borderColor flex flex-col h-40 gap-1 justify-between">
         <div>

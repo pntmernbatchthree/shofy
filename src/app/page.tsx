@@ -1,19 +1,10 @@
 import Banner from "@/components/Banner";
 import ProductList from "@/components/ProductList";
-
-export const getData = async () => {
-  const response = await fetch("https://dummyjson.com/products", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = await response.json();
-  return data;
-};
+import { getData } from "@/lib";
 
 export default async function Home() {
-  const products = await getData();
+  const endpoint = "https://dummyjson.com/products";
+  const products = await getData(endpoint);
 
   return (
     <main>

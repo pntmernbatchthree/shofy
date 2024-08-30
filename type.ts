@@ -29,4 +29,11 @@ export interface ProductType {
   title: string;
   warrantyInformation: string;
   weight: number;
+  quantity?: number;
+}
+export interface StateType {
+  shopy: {
+    cart: ProductType[];
+    userInfo: any;
+  };
 }

@@ -12,19 +12,11 @@ import { RiMenu3Line } from "react-icons/ri";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "@/redux/shofySlice";
-import { ProductType } from "../../../type";
-
-interface StateType {
-  shopy: {
-    cart: ProductType[];
-    userInfo: any;
-  };
-}
+import { ProductType, StateType } from "../../../type";
 
 const MiddleHeader = () => {
   const [searchValue, setSearchValue] = useState("");
   const { cart } = useSelector((state: StateType) => state?.shopy);
-  console.log(cart);
 
   const { data: session } = useSession();
   const dispatch = useDispatch();
@@ -62,75 +54,59 @@ const MiddleHeader = () => {
           </span>
         </div>
 
-        {session?.user ? (
-          <Link
-            href={"/profile"}
-            className="hidden md:inline-flex items-center gap-3 cursor-pointer"
-          >
-            <div className="flex items-center gap-2">
-              {/* icon */}
-              <div className="border-2 border-gray-600 text-xl rounded-full">
-                <Image
-                  src={session?.user?.image!}
-                  alt="userImage"
-                  width={200}
-                  height={200}
-                  className="w-10 rounded-full object-cover"
-                />
+        <div className="hidden md:inline-flex items-center gap-3 cursor-pointer">
+          {session?.user ? (
+            <Link
+              href={"/profile"}
+              className="hidden md:inline-flex items-center gap-3 cursor-pointer"
+            >
+              <div className="flex items-center gap-2">
+                {/* icon */}
+                <div className="border-2 border-gray-600 text-xl rounded-full">
+                  <Image
+                    src={session?.user?.image!}
+                    alt="userImage"
+                    width={200}
+                    height={200}
+                    className="w-10 rounded-full object-cover"
+                  />
+                </div>
+                {/* text */}
+                <div>
+                  <p className="text-xs">Hello, {session?.user?.name}</p>
+                  <p className="text-sm font-semibold">view profile</p>
+                </div>
               </div>
-              {/* text */}
-              <div>
-                <p className="text-xs">Hello, {session?.user?.name}</p>
-                <p className="text-sm font-semibold">view profile</p>
-              </div>
-            </div>
-            {/* Favorite Icon */}
-            <Link href={"/favorite"} className="relative">
-              <MdFavoriteBorder className="text-2xl text-gray-600" />
-              <span className="absolute -right-1 -top-1 text-[10px] bg-themeColor text-white w-4 h-4 font-semibold rounded-full inline-flex items-center justify-center">
-                0
-              </span>
             </Link>
-            {/* Cart Icon */}
-            <Link href="/cart" className="relative">
-              <HiOutlineShoppingBag className="text-2xl text-gray-600" />
-              <span className="absolute -right-1 -top-1 text-[10px] bg-themeColor text-white w-4 h-4 font-semibold rounded-full inline-flex items-center justify-center">
-                {cart?.length > 0 ? cart?.length : "0"}
-              </span>
-            </Link>
-          </Link>
-        ) : (
-          <div
-            onClick={() => signIn()}
-            className="hidden md:inline-flex items-center gap-3 cursor-pointer"
-          >
-            <div className="flex items-center gap-2">
-              {/* icon */}
+          ) : (
+            <div onClick={() => signIn()} className="flex items-center gap-2">
               <div className="border-2 border-gray-600 p-2 text-xl rounded-full">
                 <FaRegUser />
               </div>
-              {/* text */}
+
               <div>
                 <p className="text-xs">Hello, Guest</p>
                 <p className="text-sm font-semibold">Login / Register</p>
               </div>
             </div>
-            {/* Favorite Icon */}
-            <Link href={"/favorite"} className="relative">
-              <MdFavoriteBorder className="text-2xl text-gray-600" />
-              <span className="absolute -right-1 -top-1 text-[10px] bg-themeColor text-white w-4 h-4 font-semibold rounded-full inline-flex items-center justify-center">
-                0
-              </span>
-            </Link>
-            {/* Cart Icon */}
-            <Link href="/cart" className="relative">
-              <HiOutlineShoppingBag className="text-2xl text-gray-600" />
-              <span className="absolute -right-1 -top-1 text-[10px] bg-themeColor text-white w-4 h-4 font-semibold rounded-full inline-flex items-center justify-center">
-                0
-              </span>
-            </Link>
-          </div>
-        )}
+          )}
+
+          {/* Favorite Icon */}
+          <Link href={"/favorite"} className="relative">
+            <MdFavoriteBorder className="text-2xl text-gray-600" />
+            <span className="absolute -right-1 -top-1 text-[10px] bg-themeColor text-white w-4 h-4 font-semibold rounded-full inline-flex items-center justify-center">
+              0
+            </span>
+          </Link>
+          {/* Cart Icon */}
+          <Link href="/cart" className="relative">
+            <HiOutlineShoppingBag className="text-2xl text-gray-600" />
+            <span className="absolute -right-1 -top-1 text-[10px] bg-themeColor text-white w-4 h-4 font-semibold rounded-full inline-flex items-center justify-center">
+              {cart?.length > 0 ? cart?.length : "0"}
+            </span>
+          </Link>
+        </div>
+
         <div className="text-xl border border-themeColor p-2 text-black flex md:hidden items-center justify-center">
           <RiMenu3Line />
         </div>

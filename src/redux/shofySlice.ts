@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductType } from "../../type";
+import toast from "react-hot-toast";
 
 interface InitialState {
   cart: ProductType[];
@@ -20,9 +21,25 @@ export const shofySlice = createSlice({
         (item) => item?.id === action?.payload?.id
       );
       if (existingProduct) {
-        window.alert("Product already exit");
+        existingProduct.quantity! += 1;
       } else {
-        state.cart.push(action.payload);
+        state.cart.push({ ...action.payload, quantity: 1 });
+      }
+    },
+    increaseQuantity: (state, action) => {
+      const existingProduct = state.cart.find(
+        (item) => item?.id === action?.payload
+      );
+      if (existingProduct) {
+        existingProduct.quantity! += 1;
+      }
+    },
+    decreaseQuantity: (state, action) => {
+      const existingProduct = state.cart.find(
+        (item) => item?.id === action?.payload
+      );
+      if (existingProduct) {
+        existingProduct.quantity! -= 1;
       }
     },
     addUser: (state, action) => {
@@ -34,5 +51,11 @@ export const shofySlice = createSlice({
   },
 });
 
-export const { addToCart, addUser, removeUser } = shofySlice.actions;
+export const {
+  addToCart,
+  addUser,
+  removeUser,
+  increaseQuantity,
+  decreaseQuantity,
+} = shofySlice.actions;
 export default shofySlice.reducer;
