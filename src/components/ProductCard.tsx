@@ -17,18 +17,9 @@ const ProductSideBar = ({ id }: { id: number }) => {
       <button className="p-2 hover:bg-skyColor hover:text-white duration-300">
         <FiShoppingCart />
       </button>
-      <Link
-        href={`/product/${id}`}
-        // href={{
-        //   pathname: `/product/${id}`,
-        //   query: {
-        //     id: id,
-        //   },
-        // }}
-        className="p-2 hover:bg-skyColor hover:text-white duration-300 border-y border-y-borderColor"
-      >
+      <div className="p-2 hover:bg-skyColor hover:text-white duration-300 border-y border-y-borderColor">
         <FiEye />
-      </Link>
+      </div>
       <button className="p-2 hover:bg-skyColor hover:text-white duration-300">
         <MdFavoriteBorder />
       </button>

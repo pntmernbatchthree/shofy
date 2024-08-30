@@ -1,22 +1,10 @@
-import { bannerImageOne } from "@/assets";
 import Container from "@/components/Container";
 import Button from "@/components/ui/Button";
+import { banner } from "@/constants";
 import Image from "next/image";
 import { GoArrowRight } from "react-icons/go";
 
-const getData = async () => {
-  const response = await fetch(`${process.env.API_URL}api/products`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  return response.json();
-};
-
-const Banner = async () => {
-  const { banner } = await getData();
-
+const Banner = () => {
   return (
     <div className="bg-[#115061] py-20 text-themeWhite">
       <Container className="flex items-center justify-between">
