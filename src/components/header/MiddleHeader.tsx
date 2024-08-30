@@ -26,7 +26,7 @@ const MiddleHeader = () => {
     } else {
       dispatch(removeUser());
     }
-  }, [session?.user]);
+  }, [session, dispatch]);
 
   return (
     <div className="border-b-[1px] border-b-gray-400">

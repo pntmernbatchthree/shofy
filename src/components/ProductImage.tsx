@@ -10,8 +10,9 @@ const ProductImage = ({ product }: { product: ProductType }) => {
     <div className="flex items-start gap-2">
       {/* small images */}
       <div className="flex flex-col">
-        {product?.images?.map((item) => (
+        {product?.images?.map((item, index) => (
           <button
+            key={index}
             onClick={() => setCurrentImage(item)}
             className={`w-28 h-28 border mb-2 rounded-md ${
               item === currentImage && "border-sky-600"
