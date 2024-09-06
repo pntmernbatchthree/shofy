@@ -1,47 +1,55 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
-import { ProductType, StateType } from "../../type";
+
 import {
   addToCart,
   decreaseQuantity,
   increaseQuantity,
 } from "@/redux/shofySlice";
-import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { ProductType, StateType } from "../../type";
+import toast, { Toaster } from "react-hot-toast";
+import { FaPlus } from "react-icons/fa6";
+import { FaMinus } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { FiMinus, FiPlus } from "react-icons/fi";
 import { twMerge } from "tailwind-merge";
-interface Props {
-  product: ProductType;
+interface PropsType {
+  product?: ProductType;
   className?: string;
 }
 
-const AddToCartButton = ({ product, className }: Props) => {
+const AddToCartButton = ({ product, className }: PropsType) => {
+  const { cart } = useSelector((state: StateType) => state?.shopy);
   const [existingProduct, setExistingProduct] = useState<ProductType | null>(
     null
   );
-  const { cart } = useSelector((state: StateType) => state?.shopy);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const availableProduct = cart?.find((item) => item?.id === product?.id);
-    // @ts-ignore
-    setExistingProduct(availableProduct);
-  }, [product, cart]);
+    if (availableProduct) {
+      setExistingProduct(availableProduct);
+    }
+  }, [cart, product]);
 
-  const dispatch = useDispatch();
   const handleAddToCart = () => {
-    toast.success(`${product?.title.substring(0, 15)} added successfully!`);
-    dispatch(addToCart(product));
+    if (product) {
+      dispatch(addToCart(product));
+      toast.success(
+        `${product?.title.substring(0, 10)}... added successfully!`
+      );
+    }
   };
 
   const handleAdd = () => {
     dispatch(increaseQuantity(product?.id));
-    toast.success("Quantity increased successfully!");
+    toast.success(`${product?.title.substring(0, 10)}... added successfully!`);
   };
-
   const handleMinus = () => {
     if (existingProduct?.quantity! > 1) {
       dispatch(decreaseQuantity(product?.id));
-      toast.success("Quantity decreased successfully!");
+      toast.success(`Quantity decreased successfully!`);
+    } else {
+      toast.error("Quantity can not decrease less than 1");
     }
   };
 
@@ -50,29 +58,29 @@ const AddToCartButton = ({ product, className }: Props) => {
       {existingProduct ? (
         <div
           className={twMerge(
-            "flex items-center justify-between h-10",
+            "flex items-center justify-between h-10 rounded-full",
             className
           )}
         >
           <button
+            disabled={existingProduct?.quantity === 1}
             onClick={handleMinus}
-            disabled={existingProduct?.quantity! <= 1}
-            className="h-full w-10 border rounded-full flex items-center justify-center bg-gray-200 text-lg hover:bg-transparent hover:border-sky-600 duration-200 disabled:bg-gray-200 disabled:hover:bg-none disabled:border-none disabled:text-gray-400"
+            className="bg-gray-100 h-full w-10 rounded-full flex items-center justify-center border hover:border-skyColor hover:bg-transparent duration-200 disabled:text-gray-500 disabled:bg-white"
           >
-            <FiMinus />
-          </button>
-          <p className="text-lg font-semibold">{existingProduct?.quantity}</p>
+            <FaMinus />
+          </button>{" "}
+          <p className="text-base font-semibold">{existingProduct?.quantity}</p>{" "}
           <button
             onClick={handleAdd}
-            className="h-full w-10 border rounded-full flex items-center justify-center bg-gray-200 text-lg hover:bg-transparent hover:border-sky-600 duration-200"
+            className="bg-gray-100 h-full w-10 rounded-full flex items-center justify-center border hover:border-skyColor hover:bg-transparent duration-200"
           >
-            <FiPlus />
+            <FaPlus />
           </button>
         </div>
       ) : (
         <button
           onClick={handleAddToCart}
-          className="w-full bg-transparent border border-skyColor text-black tracking-wide text-sm py-1.5 hover:bg-skyColor mt-2 rounded-full hover:text-white duration-300"
+          className="bg-transparent border border-skyColor text-black rounded-full py-1.5 hover:bg-skyColor hover:text-white duration-300 my-2"
         >
           Add to cart
         </button>
